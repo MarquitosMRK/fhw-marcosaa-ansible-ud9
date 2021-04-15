@@ -1,0 +1,22 @@
+---
+- name: apache-ansible-playbook
+  hosts: fhw
+  become: true
+  tasks:
+  - name: instalar apache
+    apt:
+      name: apache2
+      state: present
+  - name: encender apache
+    service:
+      name: apache2
+      state: restarted    
+    notify: 
+      - copiar html
+  handlers:    
+  - name: copiar html
+    copy: 
+      src: /home/vagrant/ud9-playbooks/ansible.html 
+      dest: /var/www/html
+      owner: www-data
+      group: www-data
